@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark" xmlns:sec="http://www.w3.org/1999/xhtml"
+     xmlns:width="http://www.w3.org/1999/xhtml">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#"><i class="bi bi-journal-bookmark-fill"></i>SGNoticia</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a sec:authorize="hasAnyRole('ADMIN', 'PERIODISTA')" class="nav-link" href="#" role="button">
+            Noticias
+          </a>
+
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" sec:authorize="hasRole('ADMIN')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Usuarios
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Gestionar usuarios</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" sec:authorize="hasRole('ADMIN')" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Periodistas
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Gestionar periodistas</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:if="${session.usuariosession == null}" th:href="@{/sesion}">Ingresar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:if="${session.usuariosession == null}" th:href="@{/registro}">Registrarse</a>
+        </li>
+        <li th:if="${session.usuariosession != null}" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Cerrar sesión
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/logout">
+              <img src="../Noticia/Imagenes/perfil.png" th:src="@{/Imagenes/perfil.png}" style="width: 30px;" >
+              Cerrar
+            </a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

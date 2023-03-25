@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace ="/fragments/head :: head"></head>
+<body>
+<!--CSS customer-->
+<link href="../static/css/index.css" rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+<!-- Barra de navegación -->
+<nav th:replace = "/fragments/navbar :: nav"></nav>
+
+<!-- Seccion Hero -->
+<div class="container seccion-hero text-center">
+    <h1 class="mb-3">¡Bienvenidos a EGG NEWS!</h1>
+    <h3 class="mb-3">Una website para ver y/o publicar noticias</h3>
+    <div class="text-center">
+        <a class="btn btn-outline-dark boton" th:href="@{/registro}"><strong>REGÍSTRATE</strong></a>
+    </div>
+
+    <img src="../static/Imagenes/notebool.png" th:src="@{/Imagenes/notebool.png}"/>
+</div>
+</body>
+</html>
