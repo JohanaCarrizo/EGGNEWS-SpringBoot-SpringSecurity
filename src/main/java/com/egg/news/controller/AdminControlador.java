@@ -2,6 +2,7 @@ package com.egg.news.controller;
 
 import com.egg.news.entity.Periodista;
 import com.egg.news.entity.Usuario;
+import com.egg.news.enumerated.Rol;
 import com.egg.news.exception.MiExcepcion;
 import com.egg.news.service.impl.NoticiaServicio;
 import com.egg.news.service.impl.UsuarioServicio;
@@ -34,14 +35,34 @@ public class AdminControlador {
 
             modelo.addAttribute("listarNoticias", noticiaServicio.listarNoticias());
             modelo.addAttribute("listarPeriodistas", usuarioServicio.listarPeriodistas());
-            modelo.addAttribute("listarRoles", usuarioServicio.listarRoles());
+            modelo.addAttribute("listarUsuarios", usuarioServicio.listarUsuarios());
             return "panel.html";
-        }else if(logueado.getRol().toString().equals("PERIODISTA")){
+        }else if(logueado.getRol().toString().equals("PERIODISTA") && logueado.isActivo()){
             modelo.addAttribute("listarNoticias", noticiaServicio.listarNoticiasDeUnPeriodista(logueado.getId()));
             return "panel.html";
+        }else if(logueado.getRol().toString().equals("USUARIO") && logueado.isActivo()){
+
+            return "inicio.html";
         }
 
-        return null;
+        modelo.put("error", "Usuario inactivo");
+        return "login.html";
+    }
+
+    @PostMapping("/dashboard/actualizar")
+    public String actualizarPeriodista(Long id, Boolean activo, double sueldoMensual, ModelMap modelo){
+
+        try {
+            usuarioServicio.actualizarPeriodista(id, activo, sueldoMensual);
+            modelo.put("exito", "La noticia se creo correctamente!!");
+
+        } catch (MiExcepcion e) {
+            modelo.put("error", e.getMessage());
+            return "redirect:/admin/dashboard";
+        }
+
+        return "redirect:/admin/dashboard";
+
     }
 
     @GetMapping("/dashboard/usuarios")

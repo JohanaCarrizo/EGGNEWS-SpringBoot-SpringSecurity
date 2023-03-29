@@ -85,6 +85,10 @@
                         </div>
                         <div class="col-sm-6 d-flex justify-content-end">
 
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addPeriodistaModal">
+                                <i class="bi bi-plus-circle"></i>
+                                <span>Crear Periodista</span>
+                            </button>
                         </div>
 
                     </div>
@@ -100,22 +104,26 @@
                         <th class=" text-center">Activo</th>
                         <th class=" text-center">Inactivo</th>
                         <th>Sueldo Mensual</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody th:each="periodista : ${listarPeriodistas}">
                     <tr>
-                        <form>
+                        <form th:action="@{/admin/dashboard/actualizar}" method="post">
+                            <input hidden th:value="${periodista.id}" name="id">
                             <td th:text="${periodista.id}"></td>
                             <td th:text="${periodista.nombreUsuario}"></td>
                             <td th:text="${periodista.fechaAlta}"></td>
-                            <td>
-                                <select class="form-select" aria-label="Default select example">
+                            <td th:text="${periodista.rol}">
+                                <!--<select class="form-select" aria-label="Default select example" name="rol">
                                     <option th:each="rol : ${listarRoles}" selected
                                     th:value="${rol}"
                                     th:text="${rol}"
                                     th:selected="true"
                                     />
-                                </select>
+                                    <option th:each="rol : ${listarRoles}" selected th:value="${rol}" th:text="${rol}" th:selected="true">
+                                    </option>
+                                </select>-->
                             </td>
                             <td class=" text-center">
                                 <input th:if="${periodista.activo == true}" checked value="true" type="radio" name="activo">
@@ -128,12 +136,67 @@
                             <td>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" th:value="${periodista.sueldoMensual}" class="form-control" name="sueldoMensual">
+                                    <input type="number" th:value="${periodista.sueldoMensual}" class="form-control" name="sueldoMensual" placeholder="Múltiplo de 10" step="10">
                                 </div>
 
                             </td>
+                            <td>
+                                <button type="submit" class="btn btn-success">Actualizar</button>
+                            </td>
                         </form>
 
+                    </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Tabla usuario-->
+<section sec:authorize="hasRole('ADMIN')" th:if="${editar == null && advertencia == null}">
+    <div class="container-xl py-3">
+        <div class="table-responsive">
+            <div class="table-wrapper">
+                <div class="table-title">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h2>
+                                <i class="bi bi-journal-bookmark-fill"></i>
+                                Usuarios
+                            </h2>
+                        </div>
+                        <div class="col-sm-6 d-flex justify-content-end">
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <table class="table table-striped table-hover table-bordered">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre de usuario</th>
+                        <th>Fecha de alta</th>
+                        <th>Rol</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody th:each="usuario : ${listarUsuarios}">
+                    <tr>
+                        <form th:action="@{/admin/dashboard/actualizar}" method="post">
+                            <input hidden th:value="${usuario.id}" name="id">
+                            <td th:text="${usuario.id}"></td>
+                            <td th:text="${usuario.nombreUsuario}"></td>
+                            <td th:text="${usuario.fechaAlta}"></td>
+                            <td th:text="${usuario.rol}"></td>
+                            <td>
+                                <button type="submit" class="btn btn-success">Actualizar</button>
+                            </td>
+                        </form>
                     </tr>
                     </tbody>
 
@@ -235,7 +298,35 @@
     </div>
 </div>
 
+<!--Crear Modal Periodista-->
+<div id="addPeriodistaModal" class="modal fade" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form th:action="@{/noticia/crear}" th:object="${noticia}" method="POST">
+                <input hidden th:value="${session.usuariosession.getId()}" name="creador">
+                <div class="modal-header">
+                    <h4 class="modal-title">Crear Noticia</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <div class="modal-body">
 
+                    <div class="form-group">
+                        <label>Título</label>
+                        <input type="text" name="titulo" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Cuerpo</label>
+                        <textarea name="cuerpo" class="form-control" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-bs-dismiss="modal" value="Cancelar">
+                    <button type="submit" class="btn btn-success">Crear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

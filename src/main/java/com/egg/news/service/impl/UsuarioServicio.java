@@ -1,5 +1,6 @@
 package com.egg.news.service.impl;
 
+import com.egg.news.entity.Periodista;
 import com.egg.news.entity.Usuario;
 import com.egg.news.enumerated.Rol;
 import com.egg.news.exception.MiExcepcion;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -40,6 +42,23 @@ public class UsuarioServicio implements UserDetailsService, IUsuarioServicio {
         usuarioRepo.save(usuario);
     }
 
+
+    @Transactional
+    @Override
+    public void actualizarPeriodista(Long id, Boolean activo, double sueldoMensual) throws MiExcepcion {
+        Usuario user = usuarioRepo.buscarPorId(id);
+        Periodista p = new Periodista();
+
+        p.setId(user.getId());
+        p.setNombreUsuario(user.getNombreUsuario());
+        p.setPassword(user.getPassword());
+        p.setSueldoMensual(sueldoMensual);
+        p.setActivo(activo);
+        p.setFechaAlta(user.getFechaAlta());
+
+        usuarioRepo.save(p);
+    }
+
     @Override
     public List<Usuario> listarUsuarios() {
         return usuarioRepo.findAll();
@@ -55,6 +74,19 @@ public class UsuarioServicio implements UserDetailsService, IUsuarioServicio {
         return usuarioRepo.listarRoles();
     }
 
+    private void actualizarRol(Usuario user, Rol rol){
+
+            Usuario u = new Usuario();
+            u.setId(user.getId());
+            u.setNombreUsuario(user.getNombreUsuario());
+            u.setPassword(user.getPassword());
+            u.setActivo(user.isActivo());
+            u.setFechaAlta(user.getFechaAlta());
+            u.setRol(rol);
+            //borrar periodista
+            usuarioRepo.save(u);
+
+    }
 
     private void validar(String nombreUsuario, String password, String password2) throws MiExcepcion{
 

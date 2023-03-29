@@ -20,3 +20,11 @@ section {
     background-attachment: fixed;
     background-size: cover;
 }
+
+.card-header {
+    height: 80px;
+}
+
+.card-footer {
+    margin-bottom: 15px;
+}

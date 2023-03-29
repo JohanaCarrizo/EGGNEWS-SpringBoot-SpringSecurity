@@ -13,16 +13,26 @@
 <nav th:replace = "/fragments/navbar :: nav"></nav>
 
 <!-- Seccion Hero -->
-<section class="" >
-  <div class="container-md">
+<section>
 
-    <h1 class="m-3 text-center">Ultimas noticias publicadas</h1>
-    <hr>
-    <div th:each="noticia : ${listarNoticias}" class="card text-center text-bg-dark mb-3 g-4" style="width: 18rem;">
-      <div class="card-body">
-        <h5 th:text="${noticia.titulo}" class="card-title"></h5>
-        <p th:text="${noticia.cuerpo}" class="card-text"></p>
-        <a th:href="@{/noticia/ver/__${noticia.id}__}" class="btn btn-primary">Ver mas</a>
+  <div class="container-md">
+    <div class="text-center">
+      <h1 class="m-3 text-center">Ultimas noticias publicadas</h1>
+      <hr>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4">
+      <div class="col-12" th:each="noticia : ${listarNoticias}">
+        <div class="card text-center text-bg-dark mb-3 g-4" style="width: 18rem;">
+          <div class="card-header">
+            <h5 th:text="${noticia.titulo}" class="card-title"></h5>
+          </div>
+          <div class="card-body">
+            <p th:text="${noticia.cuerpo}" class="card-text"></p>
+          </div>
+          <div class="card-footer">
+            <a th:href="@{/noticia/ver/__${noticia.id}__}" class="btn btn-primary">Ver mas</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

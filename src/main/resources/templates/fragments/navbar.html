@@ -9,7 +9,7 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a sec:authorize="hasAnyRole('ADMIN', 'PERIODISTA')" class="nav-link" href="#" role="button">
+          <a sec:authorize="hasAnyRole('ADMIN', 'PERIODISTA')" th:if="${session.usuariosession != null && session.usuariosession.isActivo()}" class="nav-link" href="#" role="button">
             Noticias
           </a>
 
@@ -36,12 +36,12 @@
         <li class="nav-item">
           <a class="nav-link" th:if="${session.usuariosession == null}" th:href="@{/registro}">Registrarse</a>
         </li>
-        <li th:if="${session.usuariosession != null}" class="nav-item dropdown">
+        <li th:if="${session.usuariosession != null && session.usuariosession.isActivo()}" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Cerrar sesión
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/logout">
+            <li><a class="dropdown-item" th:href="@{/logout}">
               <img src="../Noticia/Imagenes/perfil.png" th:src="@{/Imagenes/perfil.png}" style="width: 30px;" >
               Cerrar
             </a></li>

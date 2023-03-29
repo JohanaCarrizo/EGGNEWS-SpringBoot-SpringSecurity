@@ -9,6 +9,8 @@ import java.util.List;
 public interface IUsuarioServicio {
 
     void registrar(String nombreUsuario, String pass, String pass2) throws MiExcepcion;
+
+    void actualizarPeriodista(Long id, Boolean activo, double sueldoMensual) throws MiExcepcion;
     List<Usuario> listarUsuarios();
 
     List<Usuario> listarPeriodistas();
